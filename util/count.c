@@ -1,25 +1,25 @@
 #include <stdio.h>
 
-#define IN  1
-#define OUT 0
-
-/* count words, lines, and characters in input */
-int main(int argc char **argv)
+/* count digits, whitespace, others */
+int main()
 {
-    int c, nl, nw, nc, state;
+    int c, nwhite, nother;
+    int ndigit[10];
 
-    state = OUT;
-    nl = nw = nc = 0;
-    while ((c = getchar()) != EOF) {
-        ++nc;
-        if (c == '\n')
-            ++nl;
-        if(c == ' ' || c == '\n' || c == '\t')
-            state = OUT;
-        else if (state == OUT) {
-            state = IN;
-            ++nw;
-        }
-    }
-    printf("%d %d %d\n", nl, nw, nc);
+    nwhite = nother = 0;
+    for (int i = 0; i < 10; ++i)
+        ndigit[i] = 0;
+
+    while ((c = getchar()) != EOF)
+        if (c >= '0' && c <= '9')
+            ++ndigit[c-'0'];
+        else if (c == ' ' || c == '\n' || c == '\t')
+            ++nwhite;
+        else
+            ++nother;
+
+    printf("digits =");
+    for(int i = 0; i < 10; ++i)
+        printf(" %d", ndigit[i]);
+    printf(", white space = %d, other = %d\n", nwhite, nother);
 }
